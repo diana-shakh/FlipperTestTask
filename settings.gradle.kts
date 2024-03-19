@@ -27,5 +27,7 @@ include(
     ":components:bottombar:api",
     ":components:bottombar:impl",
     ":components:lockerchoose:api",
-    ":components:lockerchoose:impl"
+    ":components:lockerchoose:impl",
+    ":components:keychoose:api",
+    ":components:keychoose:impl"
 )
