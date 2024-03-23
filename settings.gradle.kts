@@ -29,5 +29,7 @@ include(
     ":components:lockerchoose:api",
     ":components:lockerchoose:impl",
     ":components:keychoose:api",
-    ":components:keychoose:impl"
+    ":components:keychoose:impl",
+    ":components:main:impl",
+    ":components:main:api"
 )

@@ -25,8 +25,9 @@ import dagger.assisted.AssistedInject
 
 class BottomBarDecomposeComponentImpl @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
+    @Assisted private val onLockerClicked: (lockerId: Int) -> Unit,
     private val lockerChooseDecomposeComponentFactory: LockerChooseDecomposeComponent.Factory
-) : BottomBarDecomposeComponent(), ComponentContext by componentContext {
+) : BottomBarDecomposeComponent(componentContext), ComponentContext by componentContext {
     private val navigation = StackNavigation<BottomBarConfig>()
 
     private val stack: Value<ChildStack<BottomBarConfig, DecomposeComponent>> =
@@ -39,7 +40,7 @@ class BottomBarDecomposeComponentImpl @AssistedInject constructor(
 
     @Composable
     @Suppress("NonSkippableComposable")
-    override fun Render(modifier: Modifier) {
+    override fun Render() {
         val childStack by stack.subscribeAsState()
 
         ComposableBottomBarScreen(
@@ -62,16 +63,19 @@ class BottomBarDecomposeComponentImpl @AssistedInject constructor(
     ): DecomposeComponent = when (config) {
         BottomBarConfig.Archive -> lockerChooseDecomposeComponentFactory(
             componentContext = componentContext,
+            onLockerClicked = onLockerClicked,
             tabName = config.enum.tabName
         )
 
         BottomBarConfig.Device -> lockerChooseDecomposeComponentFactory(
             componentContext = componentContext,
+            onLockerClicked = onLockerClicked,
             tabName = config.enum.tabName
         )
 
         is BottomBarConfig.Hub -> lockerChooseDecomposeComponentFactory(
             componentContext = componentContext,
+            onLockerClicked = onLockerClicked,
             tabName = config.enum.tabName
         )
     }
@@ -80,7 +84,8 @@ class BottomBarDecomposeComponentImpl @AssistedInject constructor(
     @ContributesBinding(AppGraph::class, BottomBarDecomposeComponent.Factory::class)
     fun interface Factory : BottomBarDecomposeComponent.Factory {
         override fun invoke(
-            componentContext: ComponentContext
+            componentContext: ComponentContext,
+            onLockerClicked: (lockerId: Int) -> Unit
         ): BottomBarDecomposeComponentImpl
     }
 }

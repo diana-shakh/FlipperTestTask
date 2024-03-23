@@ -1,6 +1,7 @@
 package com.lionzxy.flippertesttask.keychoose.impl.composable
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,7 +20,8 @@ import kotlinx.collections.immutable.PersistentSet
 
 @Composable
 fun KeyComposableScreen(
-    keySet: PersistentSet<KeyModel>
+    keySet: PersistentSet<KeyModel>,
+    onKeyClicked: () -> Unit
 ) {
     val keyList = remember(keySet) { keySet.toList() }
     LazyColumn {
@@ -32,6 +34,7 @@ fun KeyComposableScreen(
                     .fillMaxWidth()
                     .height(1.dp)
                     .background(Color.Gray)
+                    .clickable { onKeyClicked() }
             )
             Row(Modifier.padding(16.dp)) {
                 Text(
@@ -43,5 +46,5 @@ fun KeyComposableScreen(
             }
         }
     }
-
 }
+

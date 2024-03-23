@@ -16,6 +16,10 @@ dependencies {
     implementation(projects.components.bottombar.impl)
     implementation(projects.components.lockerchoose.api)
     implementation(projects.components.lockerchoose.impl)
+    implementation(projects.components.keychoose.api)
+    implementation(projects.components.keychoose.impl)
+    implementation(projects.components.main.api)
+    implementation(projects.components.main.impl)
 
 
     implementation(libs.compose.ui)

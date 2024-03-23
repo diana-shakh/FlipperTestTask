@@ -1,6 +1,7 @@
 package com.lionzxy.flippertesttask.lockerchoose.impl.composable
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,7 +20,8 @@ import kotlinx.collections.immutable.PersistentSet
 
 @Composable
 fun LockerComposableScreen(
-    lockerSet: PersistentSet<LockerModel>
+    lockerSet: PersistentSet<LockerModel>,
+    onLockerClicked: (lockerId: Int) -> Unit
 ) {
     val lockerList = remember(lockerSet) { lockerSet.toList() }
     LazyColumn {
@@ -32,8 +34,10 @@ fun LockerComposableScreen(
                     .fillMaxWidth()
                     .height(1.dp)
                     .background(Color.Gray)
+                    .clickable {  onLockerClicked(lockerItem.lockerNumber) }
             )
-            Row(Modifier.padding(16.dp)) {
+            Row( modifier = Modifier.padding(16.dp)) {
+
                 Text(
                     modifier = Modifier
                         .padding()

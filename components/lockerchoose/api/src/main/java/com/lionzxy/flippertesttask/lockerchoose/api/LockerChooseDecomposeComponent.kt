@@ -9,6 +9,7 @@ abstract class LockerChooseDecomposeComponent(
     fun interface Factory {
         operator fun invoke(
             componentContext: ComponentContext,
+            onLockerClicked: (lockerId: Int) -> Unit,
             tabName: String
         ): LockerChooseDecomposeComponent
     }

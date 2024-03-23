@@ -1,15 +1,12 @@
 package com.lionzxy.flippertesttask.lockerchoose.impl.api
 
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -29,6 +26,7 @@ import javax.inject.Provider
 class LockerChooseDecomposeComponentImpl @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted private val tabName: String,
+    @Assisted private val onLockerClicked: (lockerId: Int) -> Unit,
     private val lockerViewModelProvider: Provider<LockerViewModel>
 ) : LockerChooseDecomposeComponent(componentContext) {
     private val lockerViewModel = instanceKeeper.getOrCreate { lockerViewModelProvider.get() }
@@ -45,7 +43,7 @@ class LockerChooseDecomposeComponentImpl @AssistedInject constructor(
                 fontSize = 32.sp,
                 textAlign = TextAlign.Start
             )
-            LockerComposableScreen(lockerSet)
+            LockerComposableScreen(lockerSet,onLockerClicked)
         }
     }
 
@@ -54,7 +52,8 @@ class LockerChooseDecomposeComponentImpl @AssistedInject constructor(
     interface Factory : LockerChooseDecomposeComponent.Factory {
         override fun invoke(
             componentContext: ComponentContext,
-            tabName: String
+            onLockerClicked: (lockerId: Int) -> Unit,
+            tabName: String,
         ): LockerChooseDecomposeComponentImpl
     }
 }

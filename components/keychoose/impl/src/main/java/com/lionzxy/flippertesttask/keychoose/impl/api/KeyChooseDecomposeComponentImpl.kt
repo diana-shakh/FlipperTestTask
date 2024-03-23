@@ -26,6 +26,7 @@ import javax.inject.Provider
 class KeyChooseDecomposeComponentImpl @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
     @Assisted private val keyNumber: Int,
+    @Assisted private val onKeyClicked: () -> Unit,
     private val keyViewModelProvider: Provider<KeyViewModel>
 ) : KeyChooseDecomposeComponent(componentContext) {
     private val keyViewModel = instanceKeeper.getOrCreate { keyViewModelProvider.get() }
@@ -42,7 +43,7 @@ class KeyChooseDecomposeComponentImpl @AssistedInject constructor(
                 fontSize = 32.sp,
                 textAlign = TextAlign.Start
             )
-            KeyComposableScreen(keySet)
+            KeyComposableScreen(keySet,onKeyClicked)
         }
 
 
@@ -53,6 +54,7 @@ class KeyChooseDecomposeComponentImpl @AssistedInject constructor(
     interface Factory : KeyChooseDecomposeComponent.Factory {
         override fun invoke(
             componentContext: ComponentContext,
+            onKeyClicked: () -> Unit,
             keyNumber: Int
         ): KeyChooseDecomposeComponentImpl
     }

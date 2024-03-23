@@ -9,6 +9,7 @@ abstract class KeyChooseDecomposeComponent (
     fun interface Factory {
         operator fun invoke(
             componentContext: ComponentContext,
+            onKeyClicked: () -> Unit,
             keyNumber: Int
         ): KeyChooseDecomposeComponent
     }
