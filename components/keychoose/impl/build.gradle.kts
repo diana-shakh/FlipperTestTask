@@ -6,6 +6,8 @@ plugins {
 android.namespace = "com.lionzxy.flippertesttask.keychoose.impl"
 
 dependencies {
+    implementation(projects.domain)
+
     implementation(projects.components.keychoose.api)
 
     implementation(projects.components.core.di)

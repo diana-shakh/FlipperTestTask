@@ -33,11 +33,16 @@ class KeyChooseDecomposeComponentImpl @AssistedInject constructor(
 ) : KeyChooseDecomposeComponent(componentContext) {
     private val keyViewModel = instanceKeeper.getOrCreate { keyViewModelProvider.get() }
 
+    init {
+        keyViewModel.init(keyNumber)
+    }
+
     @Composable
     override fun Render() {
-        val keySet by keyViewModel.getKeys().collectAsState()
+        val keys by keyViewModel.getKeys().collectAsState()
         Column(
-            Modifier.fillMaxSize()
+            Modifier
+                .fillMaxSize()
                 .background(Color.Blue)
         ) {
             Text(
@@ -47,7 +52,10 @@ class KeyChooseDecomposeComponentImpl @AssistedInject constructor(
                 textAlign = TextAlign.Start,
                 color = Color.White
             )
-            KeyComposableScreen(keySet,onKeyClicked)
+            KeyComposableScreen(keys) { keyId ->
+                keyViewModel.onKeyChoose(keyId)
+                onKeyClicked()
+            }
         }
 
 

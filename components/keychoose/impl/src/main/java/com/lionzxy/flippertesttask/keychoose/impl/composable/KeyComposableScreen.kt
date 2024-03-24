@@ -16,14 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.lionzxy.flippertesttask.keychoose.impl.config.KeyModel
-import kotlinx.collections.immutable.PersistentSet
 
 @Composable
 fun KeyComposableScreen(
-    keySet: PersistentSet<KeyModel>,
-    onKeyClicked: () -> Unit
+    keys: List<KeyModel>,
+    onKeyClicked: (Int) -> Unit
 ) {
-    val keyList = remember(keySet) { keySet.toList() }
+    val keyList = remember(keys) { keys }
     LazyColumn {
         items(
             items = keyList,
@@ -34,9 +33,12 @@ fun KeyComposableScreen(
                     .fillMaxWidth()
                     .height(1.dp)
                     .background(Color.Gray)
-                    .clickable { onKeyClicked() }
             )
-            Row(Modifier.padding(16.dp)) {
+            Row(
+                Modifier
+                    .clickable { onKeyClicked(keyItem.keyNumber) }
+                    .padding(16.dp)
+            ) {
                 Text(
                     modifier = Modifier
                         .padding()

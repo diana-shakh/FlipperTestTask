@@ -6,6 +6,8 @@ plugins {
 android.namespace = "com.lionzxy.flippertesttask.lockerchoose.impl"
 
 dependencies {
+    implementation(projects.domain)
+
     implementation(projects.components.lockerchoose.api)
 
     implementation(projects.components.core.di)

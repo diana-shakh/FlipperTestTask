@@ -33,7 +33,7 @@ class LockerChooseDecomposeComponentImpl @AssistedInject constructor(
 
     @Composable
     override fun Render() {
-        val lockerSet by lockerViewModel.getLockers().collectAsState()
+        val lockers by lockerViewModel.getLockers().collectAsState()
         Column(
             Modifier.fillMaxSize()
         ) {
@@ -43,7 +43,7 @@ class LockerChooseDecomposeComponentImpl @AssistedInject constructor(
                 fontSize = 32.sp,
                 textAlign = TextAlign.Start
             )
-            LockerComposableScreen(lockerSet,onLockerClicked)
+            LockerComposableScreen(lockers, onLockerClicked)
         }
     }
 

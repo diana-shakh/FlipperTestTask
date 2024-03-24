@@ -16,14 +16,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.lionzxy.flippertesttask.lockerchoose.impl.config.LockerModel
-import kotlinx.collections.immutable.PersistentSet
 
 @Composable
 fun LockerComposableScreen(
-    lockerSet: PersistentSet<LockerModel>,
+    lockers: List<LockerModel>,
     onLockerClicked: (lockerId: Int) -> Unit
 ) {
-    val lockerList = remember(lockerSet) { lockerSet.toList() }
+    val lockerList = remember(lockers) { lockers }
     LazyColumn {
         items(
             items = lockerList,
@@ -34,10 +33,12 @@ fun LockerComposableScreen(
                     .fillMaxWidth()
                     .height(1.dp)
                     .background(Color.Gray)
-                    .clickable {  onLockerClicked(lockerItem.lockerNumber) }
             )
-            Row( modifier = Modifier.padding(16.dp)) {
-
+            Row(
+                modifier = Modifier
+                    .clickable { onLockerClicked(lockerItem.lockerNumber) }
+                    .padding(16.dp)
+            ) {
                 Text(
                     modifier = Modifier
                         .padding()
@@ -54,5 +55,4 @@ fun LockerComposableScreen(
             }
         }
     }
-
 }

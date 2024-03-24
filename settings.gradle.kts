@@ -31,5 +31,7 @@ include(
     ":components:keychoose:api",
     ":components:keychoose:impl",
     ":components:main:impl",
-    ":components:main:api"
+    ":components:main:api",
+    ":data",
+    ":domain"
 )
