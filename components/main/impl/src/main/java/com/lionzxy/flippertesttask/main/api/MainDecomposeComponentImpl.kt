@@ -12,10 +12,12 @@ import com.arkivanov.decompose.router.stack.bringToFront
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.value.Value
+import com.arkivanov.essenty.backhandler.BackCallback
 import com.flipperdevices.core.decompose.DecomposeComponent
 import com.lionzxy.flippertesttask.bottombar.BottomBarDecomposeComponent
 import com.lionzxy.flippertesttask.core.di.AppGraph
 import com.lionzxy.flippertesttask.keychoose.api.KeyChooseDecomposeComponent
+import com.lionzxy.flippertesttask.main.BackgroundColor
 import com.lionzxy.flippertesttask.main.MainDecomposeComponent
 import com.lionzxy.flippertesttask.main.composable.ComposableMainScreen
 import com.lionzxy.flippertesttask.main.config.MainConfig
@@ -26,9 +28,11 @@ import dagger.assisted.AssistedInject
 
 class MainDecomposeComponentImpl @AssistedInject constructor(
     @Assisted componentContext: ComponentContext,
+    @Assisted private val onBackgroundColorChanged: (BackgroundColor) -> Unit,
     private val keyChooseDecomposeComponentFactory: KeyChooseDecomposeComponent.Factory,
-    private val bottomBarDecomposeComponentFactory: BottomBarDecomposeComponent.Factory
-) : MainDecomposeComponent(), ComponentContext by componentContext {
+    private val bottomBarDecomposeComponentFactory: BottomBarDecomposeComponent.Factory,
+
+    ) : MainDecomposeComponent(), ComponentContext by componentContext {
     private val navigation = StackNavigation<MainConfig>()
 
     private val stack: Value<ChildStack<MainConfig, DecomposeComponent>> =
@@ -39,6 +43,16 @@ class MainDecomposeComponentImpl @AssistedInject constructor(
             initialConfiguration = MainConfig.BottomBar,
             childFactory = ::child,
         )
+
+    init {
+        stack.subscribe {
+            val backgroundColor = when (it.active.configuration) {
+                MainConfig.BottomBar -> BackgroundColor.WHITE
+                is MainConfig.KeyChoose -> BackgroundColor.BLUE
+            }
+            onBackgroundColorChanged(backgroundColor)
+        }
+    }
 
     @Composable
     @Suppress("NonSkippableComposable")
@@ -57,12 +71,16 @@ class MainDecomposeComponentImpl @AssistedInject constructor(
     ): DecomposeComponent = when (config) {
         MainConfig.BottomBar -> bottomBarDecomposeComponentFactory(
             componentContext = componentContext,
-            onLockerClicked = { lockerId -> navigation.bringToFront(MainConfig.KeyChoose(lockerId)) }
+            onLockerClicked = { lockerId ->
+                navigation.bringToFront(MainConfig.KeyChoose(lockerId))
+            },
         )
 
         is MainConfig.KeyChoose -> keyChooseDecomposeComponentFactory(
             componentContext = componentContext,
-            onKeyClicked = {  navigation.pop() },
+            onKeyClicked = {
+                navigation.pop()
+            },
             keyNumber = config.lockerId
         )
 
@@ -72,7 +90,8 @@ class MainDecomposeComponentImpl @AssistedInject constructor(
     @ContributesBinding(AppGraph::class, MainDecomposeComponent.Factory::class)
     fun interface Factory : MainDecomposeComponent.Factory {
         override fun invoke(
-            componentContext: ComponentContext
+            componentContext: ComponentContext,
+            onBackgroundColorChanged: (BackgroundColor) -> Unit
         ): MainDecomposeComponentImpl
     }
 }

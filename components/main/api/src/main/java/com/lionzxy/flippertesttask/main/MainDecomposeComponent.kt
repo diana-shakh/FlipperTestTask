@@ -5,11 +5,13 @@ import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
 
 abstract class MainDecomposeComponent {
+
     @Composable
     abstract fun Render(modifier: Modifier)
     fun interface Factory {
         operator fun invoke(
-            componentContext: ComponentContext
+            componentContext: ComponentContext,
+            onBackgroundColorChanged: (BackgroundColor) -> Unit,
         ): MainDecomposeComponent
     }
 }

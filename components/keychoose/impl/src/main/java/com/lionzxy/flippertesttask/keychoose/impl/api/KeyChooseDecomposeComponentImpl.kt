@@ -1,5 +1,6 @@
 package com.lionzxy.flippertesttask.keychoose.impl.api
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -8,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,12 +38,14 @@ class KeyChooseDecomposeComponentImpl @AssistedInject constructor(
         val keySet by keyViewModel.getKeys().collectAsState()
         Column(
             Modifier.fillMaxSize()
+                .background(Color.Blue)
         ) {
             Text(
                 modifier = Modifier.padding(16.dp),
                 text = "Selecting a key for the locker #$keyNumber",
                 fontSize = 32.sp,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
+                color = Color.White
             )
             KeyComposableScreen(keySet,onKeyClicked)
         }

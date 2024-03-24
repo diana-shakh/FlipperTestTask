@@ -41,7 +41,8 @@ fun KeyComposableScreen(
                     modifier = Modifier
                         .padding()
                         .weight(1f),
-                    text = "Key #${keyItem.keyNumber}"
+                    text = "Key #${keyItem.keyNumber}",
+                    color = Color.White
                 )
             }
         }
